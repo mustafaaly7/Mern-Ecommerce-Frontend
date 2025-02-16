@@ -21,7 +21,7 @@ export default function Hero() {
 
 
                 <div className=" w-full lg:w-3/6 h-auto lg:h-[100%] flex items-center justify-center">
-                    <img src={"../../public/images/hero.png"} alt="hero" />
+                    <img src={"/images/hero.png"} alt="hero" />
                 </div>
                 <h1 className="text-2xl">
 

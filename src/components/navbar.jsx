@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router"
 
 export default function Navbar() {
-const navigate = useNavigate()
+    const navigate = useNavigate()
 
 
     const links = [
@@ -33,21 +33,23 @@ const navigate = useNavigate()
         <>
             <div className="bg-zinc-900 px-6 py-4 flex items-center justify-between flex-wrap">
 
+{/* for logo and img */}
                 <div className="flex items-center ">
-                    <img src={"/images/logo1.png"} alt="" className="me-4 h-12 cursor-pointer" onClick={()=>{
-navigate("/")
-                        }} />
+                    <img src={"/images/logo1.png"} alt="" className="me-4 h-12 cursor-pointer" onClick={() => {
+                        navigate("/")
+                    }} />
 
-<Link className="text-white text-xl font-bold cursor-pointer  hover:text-gray-200" to={'/'}>
-                    <h1 >Book Heaven</h1>
-</Link>
+                    <Link className="text-white text-xl font-bold cursor-pointer  hover:text-gray-200" to={'/'}>
+                        <h1 >Book Heaven</h1>
+                    </Link>
                 </div>
 
 
 
                 <div className="flex items-center gap-4 flex-wrap" >
 
-                    <ul className="flex items-center flex-row gap-4 flex-wrap ">
+{/* for navlinks */}
+                    <ul className=" hidden md:flex items-center flex-row gap-4 flex-wrap ">
 
 
                         {links.map((items, i) => {
@@ -60,12 +62,12 @@ navigate("/")
                     </ul>
 
                     {/* for buttons  */}
-                    <div className=" flex gap-2 flex-wrap">
-                        <button className="text-zinc-200 bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300" onClick={()=>{
-navigate("/login")
+                    <div className=" hidden md:flex gap-2 flex-wrap">
+                        <button className="text-zinc-200 bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300" onClick={() => {
+                            navigate("/login")
                         }} >Login</button>
-                        <button className="text-zinc-200 bg-gray-700 hover:bg-gray-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300" onClick={()=>{
-navigate("/signup")
+                        <button className="text-zinc-200 bg-gray-700 hover:bg-gray-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300" onClick={() => {
+                            navigate("/signup")
                         }}>Signup</button></div>
 
                 </div>
