@@ -6,7 +6,7 @@ export default function Hero() {
 
     return (
         <>
-            <div className=" flex flex-wrap">
+            <div className="pt-8 flex flex-wrap">
 
                 <div className=" w-full lg:w-3/6 flex flex-col gap-4 items-center lg:items-start justify-center">
                     <h1 className="text-6xl text-center lg:text-left font-semibold text-amber-100">
@@ -23,10 +23,7 @@ export default function Hero() {
                 <div className=" w-full lg:w-3/6 h-auto lg:h-[100%] flex items-center justify-center">
                     <img src={"/images/hero.png"} alt="hero" />
                 </div>
-                <h1 className="text-2xl">
-
-                    Hero
-                </h1>
+                
             </div>
 
 
