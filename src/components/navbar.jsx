@@ -86,7 +86,7 @@ export default function Navbar() {
             </Link>
           ))}
           <button
-            className="text-2xl font-semibold text-zinc-200 bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300"
+            className="text-2xl font-semibold text-zinc-200  bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300"
             onClick={() => navigate("/login")}
           >
             Login
