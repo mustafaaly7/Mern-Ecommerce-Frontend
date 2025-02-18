@@ -1,12 +1,10 @@
 
-const LOCAL_PORT="http://localhost:4000/"
+const LOCAL_PORT="http://localhost:4001/"
  
+// console.log("port" ,  import.meta.env.VITE_REACT_APP_URL);
 
-const devurl=LOCAL_PORT
-
-
-export const routes={
-Allbooks : devurl +"book/"
-
-
-}
+const devurl = import.meta.env.VITE_REACT_APP_URL
+export const routes = {
+  recentBooks: devurl + "book/recent-books",
+  allBooks: devurl + "book/",
+};

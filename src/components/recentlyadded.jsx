@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { routes } from "../constants/constant"
 import Bookcard from "./bookcard"
+import Loader from "./loader"
 
 
 
@@ -13,7 +14,7 @@ export default function Recentlyadded(){
 useEffect(()=>{
 
     const fetch = async()=>{
-const response = await axios.get(routes.Allbooks)
+const response = await axios.get(routes.recentBooks)
 setBookdata(response?.data?.data)
 }
 fetch()
@@ -30,19 +31,27 @@ return(
 
 
 Recently Added</h1>
+{!Bookdata ? (
+    <div className="flex items-center justify-center my-8">
 
-{/* books card cols etc place-items-center   */}
+  <Loader />
+    </div> // If Bookdata is not available, show the loader
+) : (
+
+    
 <div className="my-8 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 text-center ">
 {Bookdata.map((items,i)=>(
-<div>
+    <div key={i}>
 
-<Bookcard key={i} data={items} />
+<Bookcard  data={items} />
 </div>
-
 ))}
-
-
 </div>
+
+)}
+
+
+
 
 
 
