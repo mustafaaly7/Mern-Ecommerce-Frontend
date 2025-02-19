@@ -11,7 +11,7 @@ export default function Allbooks(){
     useEffect(()=>{
     
         const fetch = async()=>{
-    const response = await axios.get("https://mern-ecommerce-backend-ivory.vercel.app/book/")
+    const response = await axios.get(routes.allBooks)
     setBookdata(response?.data?.data)
     }
     fetch()
@@ -28,7 +28,7 @@ export default function Allbooks(){
 
 
 All Books</h1>
-{!Bookdata ? (
+{ !Bookdata ? (
     <div className="flex items-center justify-center my-8">
 
   <Loader />
