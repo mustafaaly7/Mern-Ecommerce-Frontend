@@ -7,12 +7,14 @@ import Loader from "../components/loader"
 
 export default function Allbooks(){
     const [Bookdata,setBookdata] = useState([])
+    const[loader,setLoader] = useState(false)
     
     useEffect(()=>{
-    
+        setLoader(true)
         const fetch = async()=>{
     const response = await axios.get(routes.allBooks)
     setBookdata(response?.data?.data)
+    setLoader(false)
     }
     fetch()
     
@@ -28,13 +30,11 @@ export default function Allbooks(){
 
 
 All Books</h1>
-{ !Bookdata ? (
-    <div className="flex items-center justify-center my-8">
+
+{loader?( <div className="flex items-center justify-center my-8 min-h-screen">
 
   <Loader />
-    </div> // If Bookdata is not available, show the loader
-) : (
-
+    </div>):(
     
 <div className="my-8 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 text-center ">
 {Bookdata.map((items,i)=>(
@@ -44,8 +44,9 @@ All Books</h1>
 </div>
 ))}
 </div>
-
 )}
+
+
 <br />
 </div>
 </>

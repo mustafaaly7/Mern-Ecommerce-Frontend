@@ -10,12 +10,16 @@ import Loader from "./loader"
 
 export default function Recentlyadded(){
     const [Bookdata,setBookdata] = useState([])
+    const[loader,setLoader] = useState(false)
+
     
 useEffect(()=>{
 
+        setLoader(true)
     const fetch = async()=>{
 const response = await axios.get(routes.recentBooks)
 setBookdata(response?.data?.data)
+setLoader(false)
 }
 fetch()
 
@@ -31,13 +35,11 @@ return(
 
 
 Recently Added</h1>
-{!Bookdata ? (
-    <div className="flex items-center justify-center my-8">
+
+{loader?( <div className="flex items-center justify-center my-8 min-h-screen">
 
   <Loader />
-    </div> // If Bookdata is not available, show the loader
-) : (
-
+    </div>):(
     
 <div className="my-8 grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 text-center ">
 {Bookdata.map((items,i)=>(
@@ -49,6 +51,7 @@ Recently Added</h1>
 </div>
 
 )}
+
 
 
 

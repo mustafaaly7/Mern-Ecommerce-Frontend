@@ -4,18 +4,21 @@ import { useParams } from "react-router"
 import { routes } from "../constants/constant";
 import { GrLanguage } from "react-icons/gr";
 import { BiMoney } from "react-icons/bi";
+import Loader from "../components/loader";
 
 
 export default function Bookdetails(){
     const {id} = useParams()
     const[book,setBook]  =useState({})
-    console.log("params " , id);
+    const[loader,setLoader] = useState(false)
     
 useEffect(()=>{
+    setLoader(true)
 const fetch =async ()=>{
 const singleBook = await axios.get(routes.signleBook+id)
 // console.log(singleBook.data.data);
 setBook(singleBook.data.data)
+setLoader(false)
 
 
 }
@@ -29,14 +32,23 @@ console.log("book" , book);
     return(
         // w-full  md:w-full sm:w-full lg:w-3/6
 <>
-{book &&(
+
+
+    
+
+{loader?( <div className="flex items-center justify-center my-8 min-h-screen">
+
+  <Loader />
+    </div>):(
+
+    
+
     <div className=" px-12 py-8 flex bg-zinc-900 gap-4  ">
     <div className="bg-zinc-800 p-4 rounded h-[80vh]  flex items-center w-3/6 justify-center">
         <img src={book.url} alt="/" className="h-[70vh]"  />
     </div>
 
 
-    {/* flex flex-col */}
     <div className="p-4 rounded w-3/6 ">
 
     <h1 className="text-zinc-400 text-4xl font-semibold">{book.title}</h1>
@@ -58,13 +70,12 @@ console.log("book" , book);
 
     </div>
 </div>
+
 )}
-{!book && 
-    <div className="flex items-center justify-center my-8">
-    
-      <Loader />
-        </div> 
-}
+
+
+
+
 
 
 
