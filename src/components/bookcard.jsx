@@ -18,7 +18,7 @@ return(
 
 <h2 className="font-bold text-lg text-zinc-300">{data.title.slice(0,30)}</h2>
 <h3 className="text-zinc-200 font-semibold">Author : {data.author}</h3>
-<h3 className="text-zinc-200 font-semibold">Price : {data.price} Pkr</h3>
+<h3 className="text-zinc-200 font-semibold">Price : ${data.price} </h3>
 {/* <span className="line-through">7000</span> */}
 </div>
 
