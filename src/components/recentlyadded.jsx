@@ -26,7 +26,6 @@ fetch()
 
 },[])
 
-console.log("bookds" , Bookdata);
 
 return(
 <>

@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router"
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 
 
@@ -23,6 +24,15 @@ export default function Navbar() {
     { title: "Cart", link: "/cart" },
     { title: "Profile", link: "/profile" },
   ];
+
+
+  //getting the  store auth state using use selector react redux  
+const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn)
+
+if(isLoggedIn === false){
+  links.splice(2,2)
+}
+
 
   return (
     <>

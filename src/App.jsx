@@ -13,7 +13,6 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
         <Routes>
 
 // pages with header and footer
@@ -41,7 +40,6 @@ function App() {
 
         </Routes>
 
-      </BrowserRouter>
     </>
   )
 }
