@@ -3,10 +3,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { routes } from "../constants/constant";
-
+import { authActions } from "../store/auth";
+import { useDispatch } from "react-redux";
 
 
 export default function Login() {
+const dispatch = useDispatch()
+
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -28,6 +31,15 @@ export default function Login() {
 
 const response  = await axios.post(routes.login,values)
 toast.success(response.data.message || "Signup successful!");
+            console.log("response => " , response.data.data);
+
+
+dispatch(authActions.login());
+dispatch(authActions.changeRole(response.data.data.existingUser.role))
+localStorage.setItem("id" , response.data.data.existingUser._id)
+localStorage.setItem("token" , response.data.data.token)
+localStorage.setItem("role" , response.data.data.existingUser.role)
+
             
 setTimeout(()=>{
     navigate('/')

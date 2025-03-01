@@ -63,6 +63,7 @@ if(isLoggedIn === false){
           </ul>
 
           {/* Buttons */}
+          {isLoggedIn === false &&
           <div className="flex gap-2">
             <button
               className="text-zinc-200 bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300"
@@ -77,6 +78,7 @@ if(isLoggedIn === false){
               Signup
             </button>
           </div>
+}
         </div>
 
         {/* Hamburger Menu */}
@@ -95,7 +97,9 @@ if(isLoggedIn === false){
               </h3>
             </Link>
           ))}
-          <button
+
+          {isLoggedIn === false && <div>
+             <button
             className="text-2xl font-semibold text-zinc-200  bg-blue-700 hover:bg-blue-500 hover:text-zinc-100 rounded px-3 py-2 transition-all duration-300"
             onClick={() => navigate("/login")}
           >
@@ -106,7 +110,8 @@ if(isLoggedIn === false){
             onClick={() => navigate("/signup")}
           >
             Signup
-          </button>
+          </button></div>}
+         
         </div>
       )}
     </>
