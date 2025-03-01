@@ -7,4 +7,6 @@ export const routes = {
   recentBooks: devurl + "book/recent-books",
   allBooks: devurl + "book/",
   signleBook: devurl + "book/",
+  signup: devurl + "auth/signup",
+  login: devurl + "auth/signin"
 };
