@@ -8,5 +8,6 @@ export const routes = {
   allBooks: devurl + "book/",
   signleBook: devurl + "book/",
   signup: devurl + "auth/signup",
-  login: devurl + "auth/signin"
+  login: devurl + "auth/signin",
+  profile : devurl + "auth/myinfo"
 };
