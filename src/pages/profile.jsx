@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { routes } from "../constants/constant";
 import { useSelector } from "react-redux";
 import Loader from "../components/loader";
+import { renderCard } from "../components/renderCard";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -26,6 +27,8 @@ export default function Profile() {
     fetchUser();
   }, []);
 
+  console.log("user => ", user);
+
   // Placeholder for the sign-out function
   const handleSignOut = () => {
     // Add your sign-out logic here
@@ -36,33 +39,43 @@ export default function Profile() {
     window.location.href = "/login"; // Redirect to login page
   };
 
+  
+
   const renderTabContent = (info) => {
     switch (activeTab) {
       case "favorites":
         return (
           <div className="w-full p-4">
-            <h2 className="text-2xl font-semibold mb-4">Favourite Books</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-amber-100">
+              Favourite Books ({info.favourites.length})
+            </h2>
             {info.favourites.length > 0 ? (
-              <ul className="list-disc list-inside">
-                {info.favourites.map((book, index) => (
-                  <li key={index} className="text-gray-300">{book}</li>
-                ))}
-              </ul>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {info.favourites.map((book) => renderCard(book))}
+              </div>
             ) : (
               <p className="text-gray-400">No favourite books added yet.</p>
             )}
           </div>
         );
       case "cart":
+        // Calculate total price of the cart
+        const totalPrice = info.cart.reduce((total, item) => total + item.price, 0);
+
         return (
           <div className="w-full p-4">
-            <h2 className="text-2xl font-semibold mb-4">Cart</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-amber-100">Cart ({info.cart.length})</h2>
             {info.cart.length > 0 ? (
-              <ul className="list-disc list-inside">
-                {info.cart.map((item, index) => (
-                  <li key={index} className="text-gray-300">{item}</li>
-                ))}
-              </ul>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {info.cart.map((item) => renderCard(item))}
+                </div>
+                <div className="mt-6 text-right">
+                  <p className="text-2xl font-semibold text-amber-100">
+                    Total: ${totalPrice.toFixed(2)}
+                  </p>
+                </div>
+              </>
             ) : (
               <p className="text-gray-400">Your cart is empty.</p>
             )}
@@ -71,13 +84,19 @@ export default function Profile() {
       case "orders":
         return (
           <div className="w-full p-4">
-            <h2 className="text-2xl font-semibold mb-4">Orders</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-amber-100">Orders ({info.orders.length})</h2>
             {info.orders.length > 0 ? (
-              <ul className="list-disc list-inside">
-                {info.orders.map((order, index) => (
-                  <li key={index} className="text-gray-300">{order}</li>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {info.orders.map((order) => (
+                  <div key={order._id} className="bg-zinc-700 rounded-lg shadow-md p-4">
+                    <h3 className="text-xl font-semibold text-amber-100">
+                      {order.book.title}
+                    </h3>
+                    <p className="text-gray-400">Status: {order.status}</p>
+                    <p className="text-gray-400">Price: ${order.book.price}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p className="text-gray-400">No orders placed yet.</p>
             )}
@@ -89,7 +108,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="bg-zinc-800 min-h-screen pb-16"> {/* Added padding-bottom */}
+    <div className="bg-zinc-800 min-h-screen pb-16">
       {user ? (
         user.map((info, index) => (
           <section key={index} className="w-full overflow-hidden bg-zinc-900 text-amber-100">
@@ -159,7 +178,7 @@ export default function Profile() {
               </div>
 
               {/* Sign Out Button */}
-              <div className="w-full flex justify-center mb-12"> {/* Added margin-top for spacing */}
+              <div className="w-full flex justify-center mb-12">
                 <button
                   onClick={handleSignOut}
                   className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
