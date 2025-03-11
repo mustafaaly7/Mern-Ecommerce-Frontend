@@ -9,5 +9,10 @@ export const routes = {
   signleBook: devurl + "book/",
   signup: devurl + "auth/signup",
   login: devurl + "auth/signin",
-  profile : devurl + "auth/myinfo"
+  profile : devurl + "auth/myinfo",
+addtoCart : devurl + "cart/add-to-cart",
+getCart : devurl + "cart/get-user-cart",
+addtoFavourite : devurl + "favourite/addtofavourite",
+
+
 };
