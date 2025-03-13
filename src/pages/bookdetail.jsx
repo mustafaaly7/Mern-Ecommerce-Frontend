@@ -60,7 +60,7 @@ const addtoFavourite = async(id) =>{
 try {
     const config = {
 headers :{
-id : id,
+bookid : id,
 authorization : `Bearer ${localStorage.getItem("token")}`
 
 }   }
