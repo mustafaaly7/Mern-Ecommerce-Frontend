@@ -7,12 +7,18 @@ import Loader from "../components/loader";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 
 export default function Bookdetails() {
     const { id } = useParams()
     const [book, setBook] = useState({})
     const [loader, setLoader] = useState(false)
+const isLoggedin = useSelector((state)=>state.auth.isLoggedIn)
+const role = useSelector((state)=>state.auth.role)
+
+console.log("loggedin " , isLoggedin)
+console.log("role " , role)
 
     useEffect(() => {
         setLoader(true)
@@ -39,57 +45,58 @@ export default function Bookdetails() {
                     Authorization: `Bearer ${localStorage.getItem("token")}` // Include the token
                 }
             };
-    
-    
+
+
             const response = await axios.put(routes.addtoCart, null, config); // Pass null for the request body
-            if(response.data.err == false){
-                toast.success(response.data.message );
-            
+            if (response.data.err == false) {
+                toast.success(response.data.message);
+
             }
-            else{
-                toast.error(response.data.message );
-            
+            else {
+                toast.error(response.data.message);
+
             }
         } catch (error) {
-            toast.error(error.response.data.message );
+            toast.error(error.response.data.message);
 
         }
     };
 
-const addtoFavourite = async(id) =>{
-try {
-    const config = {
-headers :{
-bookid : id,
-authorization : `Bearer ${localStorage.getItem("token")}`
+    const addtoFavourite = async (id) => {
+        try {
+            const config = {
+                headers: {
+                    bookid: id,
+                    authorization: `Bearer ${localStorage.getItem("token")}`
 
-}   }
+                }
+            }
 
-const response = await axios.put(routes.addtoFavourite , null ,config)
-console.log("response => " , response);
+            const response = await axios.put(routes.addtoFavourite, null, config)
+            console.log("response => ", response);
 
-if(response.data.err == false){
-    toast.success(response.data.message );
+            if (response.data.err == false) {
+                toast.success(response.data.message);
 
-}
-else{
-    toast.error(response.data.message );
+            }
+            else {
+                toast.error(response.data.message);
 
-}
-
-
-
+            }
 
 
 
-} catch (error) {
-    console.log("error => " , error);
-    toast.error(error.response.data.message );
-    
-}
 
 
-}
+
+        } catch (error) {
+            console.log("error => ", error);
+            toast.error(error.response.data.message);
+
+        }
+
+
+    }
 
 
 
@@ -101,7 +108,7 @@ else{
 
 
 
-            {loader ? (<div className="flex items-center justify-center my-8 min-h-screen">
+            {loader ? (<div className="bg-zinc-900 flex items-center justify-center  min-h-screen">
 
                 <Loader />
             </div>) : (
@@ -110,16 +117,16 @@ else{
 
 
                 <div className="pb-40 md:pb-20 px-12 py-8 bg-zinc-900 flex  gap-4 flex-col md:flex-row  ">
-                                    <ToastContainer />
-                    
+                    <ToastContainer />
+
                     <div className="bg-zinc-800 p-4 rounded h-[80vh]  flex items-center  justify-center w-full md:w-3/6 gap-8 flex-wrap">
 
                         <img src={book.url} alt="/" className="h-[70vh]" />
 
 
                         <div className=" text-white flex flex-row     justify-items-center gap-5">
-                            <FaCartShopping className="cursor-pointer text-4xl  md:text-5xl" onClick={()=>addtoCart(book._id)} />
-                            <FaHeart  className="cursor-pointer text-4xl  md:text-5xl" onClick={()=>addtoFavourite(book._id)}/>
+                            <FaCartShopping className="text-blue-500  bg-white p-2 rounded-2xl cursor-pointer text-4xl  md:text-6xl" onClick={() => addtoCart(book._id)} />
+                            <FaHeart className="text-red-500 bg-white p-2 cursor-pointer rounded-2xl text-4xl  md:text-6xl" onClick={() => addtoFavourite(book._id)} />
                         </div>
                     </div>
 
