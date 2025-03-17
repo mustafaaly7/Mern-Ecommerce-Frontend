@@ -17,8 +17,8 @@ export default function Bookdetails() {
 const isLoggedin = useSelector((state)=>state.auth.isLoggedIn)
 const role = useSelector((state)=>state.auth.role)
 
-console.log("loggedin " , isLoggedin)
-console.log("role " , role)
+// console.log("loggedin " , isLoggedin)
+// console.log("role " , role)
 
     useEffect(() => {
         setLoader(true)

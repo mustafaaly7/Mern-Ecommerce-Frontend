@@ -13,6 +13,7 @@ export const routes = {
 addtoCart : devurl + "cart/add-to-cart",
 getCart : devurl + "cart/get-user-cart",
 addtoFavourite : devurl + "favourite/addtofavourite",
+removeFromCart : devurl + "cart/remove-from-cart/"
 
 
 };
