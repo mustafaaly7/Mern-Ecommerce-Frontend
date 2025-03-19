@@ -4,43 +4,103 @@ import { routes } from "../constants/constant";
 import { useSelector } from "react-redux";
 import Loader from "../components/loader";
 import { renderCard } from "../components/renderCard";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState("favorites"); // State to manage active tab
+
+
 
   const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer ${localStorage.getItem("token")}`,
   };
 
+
+
+  // fetch user's information 
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(routes.profile, { headers });
+      setUser(response.data.data);
+    } catch (error) {
+      console.log("error=>", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(routes.profile, { headers });
-        setUser(response.data.data);
-      } catch (error) {
-        console.log("error=>", error);
-      }
-    };
+    
 
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
-  console.log("user => ", user);
 
   // Placeholder for the sign-out function
   const handleSignOut = () => {
-    // Add your sign-out logic here
     console.log("User signed out");
-    // Example: Clear local storage and redirect to login
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     window.location.href = "/login"; // Redirect to login page
   };
 
-  
 
+
+  // to remove books from cart and favourite on profile page 
+  const onDiscard = async (id, parameter) => {
+    try {
+      if (parameter == "favorites") {
+
+        const response = await axios.put(routes.removeFromFavourite, null, {
+          headers: {
+            bookid: id,
+            authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        if (response.data.err == false) {
+          toast.success(response.data.message);
+          fetchUser()
+        }
+        else {
+          toast.error(response.data.message);
+
+        }
+
+
+      }
+if(parameter == "cart"){
+
+  const response = await axios.put(`${routes.removeFromCart}${id}`, null, {
+    headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+  if (response.data.err == false) {
+    toast.success(response.data.message);
+    fetchUser()
+  }
+  else {
+    toast.error(response.data.message);
+
+  }
+
+
+}
+
+
+
+
+    } catch (error) {
+      console.log("error => ", error);
+
+
+    }
+
+
+  }
+
+
+// rendering tab based on cart favourite 
   const renderTabContent = (info) => {
     switch (activeTab) {
       case "favorites":
@@ -51,7 +111,7 @@ export default function Profile() {
             </h2>
             {info.favourites.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {info.favourites.map((book) => renderCard(book))}
+                {info.favourites.map((book) => renderCard(book, () => { onDiscard(book._id, "favorites") }))}
               </div>
             ) : (
               <p className="text-gray-400">No favourite books added yet.</p>
@@ -68,7 +128,7 @@ export default function Profile() {
             {info.cart.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {info.cart.map((item) => renderCard(item))}
+                  {info.cart.map((item) => renderCard(item,()=>onDiscard(item._id , "cart")))}
                 </div>
                 <div className="mt-6 text-right">
                   <p className="text-2xl font-semibold text-amber-100">
@@ -109,6 +169,8 @@ export default function Profile() {
 
   return (
     <div className="bg-zinc-800 min-h-screen pb-16">
+                    <ToastContainer />
+
       {user ? (
         user.map((info, index) => (
           <section key={index} className="w-full overflow-hidden bg-zinc-900 text-amber-100">
