@@ -26,6 +26,8 @@ export default function Cart() {
     fetchCart();
   }, []);
 
+
+// remove the cart books 
   const removeFromCart = async (id) => {
     try {
       await axios.put(`${routes.removeFromCart}${id}`, null, {
@@ -41,6 +43,37 @@ export default function Cart() {
   };
 
   const totalAmount = cart.reduce((sum, book) => sum + book.price, 0);
+
+
+  // place order 
+
+  const placeOrder =async()=>{
+try {
+  
+const response = await axios.post(routes.placeOrder,{
+  order : cart
+}, {
+  headers:{
+authorization : `Bearer ${localStorage.getItem("token")}`
+
+
+  }
+  
+  
+})
+
+console.log("response " , response);
+
+
+} catch (error) {
+  console.log("error => " , error);
+  
+}
+
+
+
+  }
+
 
   return (
     <div className="p-6 bg-zinc-900 min-h-screen text-amber-100">
@@ -117,8 +150,10 @@ export default function Cart() {
 
           <div className="text-center mt-8">
             <p className="text-xl font-semibold mb-4">Total: ${totalAmount.toFixed(2)}</p>
-            <button className="px-6 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700">
-              Proceed to Checkout
+            <button className="px-6 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-400"
+            onClick={placeOrder}
+            >
+              Place Order
             </button>
           </div>
         </div>
