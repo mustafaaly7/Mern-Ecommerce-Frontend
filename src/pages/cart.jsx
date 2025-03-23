@@ -4,14 +4,18 @@ import { routes } from "../constants/constant";
 import Loader from "../components/loader";
 import { FaTrash } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const [loader, setLoader] = useState(false);
+const navigate = useNavigate()
+
 
   useEffect(() => {
-    setLoader(true);
     const fetchCart = async () => {
+    setLoader(true);
+
       try {
         const response = await axios.get(routes.getCart, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -54,19 +58,25 @@ const response = await axios.post(routes.placeOrder,{
   order : cart
 }, {
   headers:{
-authorization : `Bearer ${localStorage.getItem("token")}`
-
-
-  }
-  
-  
+authorization : `Bearer ${localStorage.getItem("token")}`}
 })
+toast.success(response.data.message || "Order Placed Successfully :) ");
+
+
 
 console.log("response " , response);
+
+setTimeout(()=>{
+
+  navigate("/profile")
+},4000)
+
 
 
 } catch (error) {
   console.log("error => " , error);
+toast.success(error.response.data.message || "Order Placed Successfully :) ");
+
   
 }
 

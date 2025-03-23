@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState("favorites"); // State to manage active tab
+  const [activeTab, setActiveTab] = useState("orders"); // State to manage active tab
 
 
 
