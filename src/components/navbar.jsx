@@ -23,16 +23,30 @@ export default function Navbar() {
     { title: "All Books", link: "/allbooks" },
     { title: "Cart", link: "/cart" },
     { title: "Profile", link: "/profile" },
+    { title: "Admin Profile", link: "/adminprofile" },
+    
   ];
 
 
   //getting the  store auth state using use selector react redux  
 const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn)
+const role = useSelector((state)=>state.auth.role)
+
 
 if(isLoggedIn === false){
   links.splice(2,2)
 }
+if(isLoggedIn === true && role === "user" ){
 
+  links.splice(4,1)
+}
+
+
+if(isLoggedIn === true && role === "admin"){
+
+  links.splice(3,1)
+}
+console.log("role",role);
 
   return (
     <>

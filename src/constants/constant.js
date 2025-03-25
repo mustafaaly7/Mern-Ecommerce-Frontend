@@ -15,7 +15,10 @@ getCart : devurl + "cart/get-user-cart",
 addtoFavourite : devurl + "favourite/addtofavourite",
 removeFromCart : devurl + "cart/remove-from-cart/",
 removeFromFavourite : devurl +"favourite/remove-book",
+//orders
+getAllOrders : devurl + "order/get-all-orders",
 placeOrder : devurl + "order/place-order",
-orderHistory : devurl + "order/order-history"
+orderHistory : devurl + "order/order-history",
+updateOrder : devurl + "order/update-status/"
 
 };

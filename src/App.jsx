@@ -11,6 +11,7 @@ import Bookdetails from './pages/bookdetail'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { authActions } from './store/auth'
+import AdminProfile from './pages/adminprofile'
 
 function App() {
   const dispatch = useDispatch()
@@ -44,7 +45,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/bookdetails/:id' element={<Bookdetails />} />
-
+<Route path="/adminprofile" element={<AdminProfile/>} />
         </Route>
 
 
