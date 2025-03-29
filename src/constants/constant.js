@@ -4,21 +4,33 @@ const LOCAL_PORT="http://localhost:4001/"
 
 const devurl = import.meta.env.VITE_REACT_APP_URL
 export const routes = {
-  recentBooks: devurl + "book/recent-books",
-  allBooks: devurl + "book/",
-  signleBook: devurl + "book/",
+  // Auth and profile 
   signup: devurl + "auth/signup",
   login: devurl + "auth/signin",
   profile : devurl + "auth/myinfo",
+  
+  // cart 
+
 addtoCart : devurl + "cart/add-to-cart",
 getCart : devurl + "cart/get-user-cart",
-addtoFavourite : devurl + "favourite/addtofavourite",
 removeFromCart : devurl + "cart/remove-from-cart/",
+
+// favourites 
+addtoFavourite : devurl + "favourite/addtofavourite",
 removeFromFavourite : devurl +"favourite/remove-book",
+
 //orders
 getAllOrders : devurl + "order/get-all-orders",
 placeOrder : devurl + "order/place-order",
 orderHistory : devurl + "order/order-history",
-updateOrder : devurl + "order/update-status/"
+updateOrder : devurl + "order/update-status/",
+
+// books 
+
+addBook : devurl + "book/add-book",
+recentBooks: devurl + "book/recent-books",
+  allBooks: devurl + "book/",
+  signleBook: devurl + "book/",
+deleteBook : devurl + "book/delete-book"
 
 };

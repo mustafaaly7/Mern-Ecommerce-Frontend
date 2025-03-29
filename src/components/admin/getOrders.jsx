@@ -37,7 +37,8 @@ export default function UserOrders() {
           },
         }
       );
-      if (response.data.success) {
+      
+      if (response.status == 200) {
         toast.success("Order status updated successfully");
         setOrders((prevOrders) =>
           prevOrders.map((order) =>

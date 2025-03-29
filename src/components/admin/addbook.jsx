@@ -5,61 +5,66 @@ import { routes } from "../../constants/constant";
 
 export default function AddBookForm() {
   const [formData, setFormData] = useState({
-    title: "",
+    url: "",
     author: "",
+    title: "",
     price: "",
     description: "",
-    coverImage: null,
-    preview: null
+    language: "English"
   });
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        coverImage: file,
-        preview: URL.createObjectURL(file)
-      }));
-    }
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.url) newErrors.url = "URL is required";
+    if (!formData.author) newErrors.author = "Author is required";
+    if (!formData.title) newErrors.title = "Title is required";
+    if (!formData.price) newErrors.price = "Price is required";
+    if (!formData.description) newErrors.description = "Description is required";
+    if (!formData.language) newErrors.language = "Language is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleAddBook = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+    
     setLoading(true);
     
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('author', formData.author);
-      formDataToSend.append('price', formData.price);
-      formDataToSend.append('description', formData.description);
-      if (formData.coverImage) {
-        formDataToSend.append('coverImage', formData.coverImage);
-      }
-
-      const response = await axios.post(routes.addBook, formDataToSend, {
+      const response = await axios.post(routes.addBook, formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`,
-          'Content-Type': 'multipart/form-data'
         }
       });
+      console.log("response " , response);
+      
 
-      if (response.data.success) {
+      if (response.status == 200) {
         toast.success("Book added successfully!");
         setFormData({
-          title: "",
+          url: "",
           author: "",
+          title: "",
           price: "",
           description: "",
-          coverImage: null,
-          preview: null
+          language: "English"
         });
       }
     } catch (error) {
@@ -69,6 +74,11 @@ export default function AddBookForm() {
       setLoading(false);
     }
   };
+
+  const languages = [
+    "English", "Spanish", "French", "German", "Chinese",
+    "Hindi", "Arabic", "Russian", "Portuguese", "Japanese"
+  ];
 
   return (
     <div className="bg-zinc-800 rounded-lg shadow-lg p-6 mb-8">
@@ -82,89 +92,95 @@ export default function AddBookForm() {
           {/* Left Column */}
           <div className="space-y-4">
             <div>
-              <label className="block text-amber-100 mb-2">Title</label>
+              <label className="block text-amber-100 mb-2">Title*</label>
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full bg-zinc-700 border border-zinc-600 rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className={`w-full bg-zinc-700 border ${errors.title ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500`}
                 placeholder="Book Title"
                 required
               />
+              {errors.title && <p className="text-red-400 text-sm mt-1">{errors.title}</p>}
             </div>
             
             <div>
-              <label className="block text-amber-100 mb-2">Author</label>
+              <label className="block text-amber-100 mb-2">Author*</label>
               <input
                 type="text"
                 name="author"
                 value={formData.author}
                 onChange={handleChange}
-                className="w-full bg-zinc-700 border border-zinc-600 rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className={`w-full bg-zinc-700 border ${errors.author ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500`}
                 placeholder="Author Name"
                 required
               />
+              {errors.author && <p className="text-red-400 text-sm mt-1">{errors.author}</p>}
             </div>
             
             <div>
-              <label className="block text-amber-100 mb-2">Price ($)</label>
+              <label className="block text-amber-100 mb-2">Price ($)*</label>
               <input
                 type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                className="w-full bg-zinc-700 border border-zinc-600 rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className={`w-full bg-zinc-700 border ${errors.price ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500`}
                 placeholder="0.00"
-                min="0"
+                min="0.01"
                 step="0.01"
                 required
               />
+              {errors.price && <p className="text-red-400 text-sm mt-1">{errors.price}</p>}
             </div>
           </div>
           
           {/* Right Column */}
           <div className="space-y-4">
             <div>
-              <label className="block text-amber-100 mb-2">Cover Image</label>
-              <div className="flex items-center space-x-4">
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-zinc-600 rounded-lg cursor-pointer bg-zinc-700 hover:bg-zinc-600">
-                  {formData.preview ? (
-                    <img 
-                      src={formData.preview} 
-                      alt="Preview" 
-                      className="h-full w-full object-cover rounded-lg"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <svg className="w-8 h-8 mb-3 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                      </svg>
-                      <p className="mb-2 text-sm text-zinc-400">Click to upload</p>
-                    </div>
-                  )}
-                  <input 
-                    type="file" 
-                    className="hidden" 
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
-                </label>
-              </div>
+              <label className="block text-amber-100 mb-2">Book URL*</label>
+              <input
+                type="text"
+                name="url"
+                value={formData.url}
+                onChange={handleChange}
+                className={`w-full bg-zinc-700 border ${errors.url ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+                placeholder="Enter book URL"
+                required
+              />
+              {errors.url && <p className="text-red-400 text-sm mt-1">{errors.url}</p>}
+            </div>
+
+            <div>
+              <label className="block text-amber-100 mb-2">Language*</label>
+              <select
+                name="language"
+                value={formData.language}
+                onChange={handleChange}
+                className={`w-full bg-zinc-700 border ${errors.language ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500`}
+                required
+              >
+                {languages.map(lang => (
+                  <option key={lang} value={lang}>{lang}</option>
+                ))}
+              </select>
+              {errors.language && <p className="text-red-400 text-sm mt-1">{errors.language}</p>}
             </div>
           </div>
         </div>
         
         <div>
-          <label className="block text-amber-100 mb-2">Description</label>
+          <label className="block text-amber-100 mb-2">Description*</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full bg-zinc-700 border border-zinc-600 rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500 min-h-[120px]"
-            placeholder="Book description..."
+            className={`w-full bg-zinc-700 border ${errors.description ? 'border-red-500' : 'border-zinc-600'} rounded-md px-4 py-2 text-amber-100 focus:outline-none focus:ring-1 focus:ring-blue-500 min-h-[120px]`}
+            placeholder="Book description"
             required
           />
+          {errors.description && <p className="text-red-400 text-sm mt-1">{errors.description}</p>}
         </div>
         
         <div className="flex justify-end">

@@ -32,9 +32,11 @@ export default function Navbar() {
 const isLoggedIn = useSelector((state)=>state.auth.isLoggedIn)
 const role = useSelector((state)=>state.auth.role)
 
+console.log("logged in user " , isLoggedIn);
+
 
 if(isLoggedIn === false){
-  links.splice(2,2)
+  links.splice(2,3)
 }
 if(isLoggedIn === true && role === "user" ){
 
