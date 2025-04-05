@@ -4,11 +4,12 @@ const LOCAL_PORT="http://localhost:4001/"
 
 const devurl = import.meta.env.VITE_REACT_APP_URL
 export const routes = {
-  // Auth and profile 
+  // Auth and profile And All users
   signup: devurl + "auth/signup",
   login: devurl + "auth/signin",
   profile : devurl + "auth/myinfo",
-  
+Allusers  : devurl + "auth/get-all-users",
+deleteUser :devurl + 'auth/delete-user',
   // cart 
 
 addtoCart : devurl + "cart/add-to-cart",

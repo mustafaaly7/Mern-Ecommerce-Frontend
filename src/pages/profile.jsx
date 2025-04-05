@@ -38,10 +38,17 @@ export default function Profile() {
 
   // Placeholder for the sign-out function
   const handleSignOut = () => {
-    console.log("User signed out");
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    window.location.href = "/login"; // Redirect to login page
+    
+    // console.log("User signed out");
+    
+    toast.success("User Signed Out Successfully")
+
+setTimeout(() => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("id");
+  window.location.href = "/login"; // Redirect to login page
+  
+},3000);
   };
 
 
